@@ -1,27 +1,34 @@
-import { useRef } from "react";
+import { useState, useRef } from 'react';
 
-function ZoomImage() {
-  const imgRef = useRef();
+const Timer = () => {
+  const [seconds, setSeconds] = useState(0);
+  const timerRef = useRef(null);
 
-  const zoomIn = () => {
-    imgRef.current.style.transform = "scale(1.5)";
+  const startTimer = () => {
+    if (timerRef.current) return;
+    timerRef.current = setInterval(() => {
+      setSeconds((prev) => prev + 1);
+    }, 1000);
   };
 
-  const zoomOut = () => {
-    imgRef.current.style.transform = "scale(1)";
+  const stopTimer = () => {
+    clearInterval(timerRef.current);
+    timerRef.current = null;
+  };
+
+  const resetTimer = () => {
+    stopTimer();
+    setSeconds(0);
   };
 
   return (
-    <div>
-      <img
-        ref={imgRef}
-        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"
-        onMouseEnter={zoomIn}
-        onMouseLeave={zoomOut}
-        style={{ width: "300px", transition: "0.3s" }}
-      />
+    <div style={{ padding: '20px', border: '1px solid #444', margin: '10px', borderRadius: '10px' }}>
+      <h3>თაიმერი: {seconds} წამი</h3>
+      <button onClick={startTimer}>Start</button>
+      <button onClick={stopTimer} style={{ margin: '0 10px' }}>Stop</button>
+      <button onClick={resetTimer}>Reset</button>
     </div>
   );
-}
+};
 
-export default ZoomImage;
+export default Timer;

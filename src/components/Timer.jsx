@@ -1,35 +1,34 @@
-import { useRef, useState } from "react";
+import { useState, useRef } from 'react';
 
-function Timer() {
-  const [time, setTime] = useState(0);
-  const intervalRef = useRef(null);
+const Timer = () => {
+  const [seconds, setSeconds] = useState(0);
+  const timerRef = useRef(null);
 
-  const start = () => {
-    if (intervalRef.current) return;
-
-    intervalRef.current = setInterval(() => {
-      setTime((t) => t + 1);
+  const startTimer = () => {
+    if (timerRef.current) return;
+    timerRef.current = setInterval(() => {
+      setSeconds((prev) => prev + 1);
     }, 1000);
   };
 
-  const stop = () => {
-    clearInterval(intervalRef.current);
-    intervalRef.current = null;
+  const stopTimer = () => {
+    clearInterval(timerRef.current);
+    timerRef.current = null;
   };
 
-  const reset = () => {
-    stop();
-    setTime(0);
+  const resetTimer = () => {
+    stopTimer();
+    setSeconds(0);
   };
 
   return (
-    <div>
-      <h2>⏱ {time}</h2>
-      <button onClick={start}>Start</button>
-      <button onClick={stop}>Stop</button>
-      <button onClick={reset}>Reset</button>
+    <div style={{ padding: '20px', border: '1px solid #444', margin: '10px', borderRadius: '10px' }}>
+      <h3>თაიმერი: {seconds} წამი</h3>
+      <button onClick={startTimer}>Start</button>
+      <button onClick={stopTimer} style={{ margin: '0 10px' }}>Stop</button>
+      <button onClick={resetTimer}>Reset</button>
     </div>
   );
-}
+};
 
 export default Timer;
